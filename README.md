@@ -1,135 +1,336 @@
-ONMP
+ONMP = Opkg + Nginx + MySQL + PHP. 
 ===
 
-适用于安装了Entware固件的onmp一键安装命令
+Скрипт для установки в один клик ONNMP на прошивку Entware
 
-目前已经在Padavan、LEDE、梅林上测试成功
+В настоящее время успешно протестированы на Padavan, LEDE и Merlin / Keenetic
 
-`php-fpm` 和 `mysqld` 启动失败的可以开启swap
+`php-fpm` и `mysqld` Если запуск не удался, вы должны создать swap
+
+nginx ONMP настроен на прослушивание порта 80, поэтому если у Вас установлен Web-интерфейс 
+Luci и, соответственно, сервер uhttpd, слушающий порт 81 (по умолчанию - 80), то его 
+следует перенести на другой порт.
+Делается это просто, надо отредактировать файл /etc/config/uhttpd :
+
+в строке
+list listen_http
+замените 81 на 80, сохраните и рестартуйте uhttpd:
+
+/etc/init.d/uhttpd restart
+
+
 
 ```
 $ onmp open 
-# 选择7
+# Выберите 7
 ```
 
-## 说明
+## Пояснение
 
 ONMP: Opkg + Nginx + MySQL + PHP
 
-这是一个用Linux Shell编写的脚本，可以为使用opkg包管理的路由器快速搭建Nginx/MySQL/PHP环境，并且内置了一些好用的网站程序一键免配置快速安装
+Это скрипт написан в Linux Shell, и может быстро собрать среду Nginx / MySQL / PHP для маршрутизаторов, 
+управляемых пакетом opkg, и создать несколько полезных программ для веб-сайтов с установкой в один клик.
 
 ```
-ONMP内置了以下程序的一键安装：
-(1) phpMyAdmin（数据库管理工具）
-(2) WordPress（使用最广泛的CMS）
-(3) Owncloud（经典的私有云）
-(4) Nextcloud（Owncloud团队的新作，美观强大的个人云盘）
-(5) h5ai（优秀的文件目录）
-(6) Lychee（一个很好看，易于使用的Web相册）
-(7) Kodexplorer（可道云aka芒果云在线文档管理器）
-(8) Typecho (流畅的轻量级开源博客程序)
-(9) Z-Blog (体积小，速度快的PHP博客程序)
-(10) DzzOffice (开源办公平台)
+ONMP - Установка в один клик со следующими встроенными программами：
+(1) phpMyAdmin (Инструмент управления БД)
+(2) WordPress (Наиболее широко используемая CMS)
+(3) Owncloud (Классическое частное облако)
+(4) Nextcloud (Новая работа команды Owncloud, красивый и мощный персональный облачный диск)
+(5) h5ai (Отличный каталог файлов)
+(6) Lychee (Красивый, простой в использовании веб-альбом)
+(7) Kodexplorer (Can Daoyun aka Mango Cloud Онлайн менеджер документов)
+(8) Typecho (Легкая программа для блогов с открытым исходным кодом)
+(9) Z-Blog (Маленький, быстрый PHP блоггер)
+(10) DzzOffice (Офисная платформа с открытым исходным кодом)
 ```
 
-所有的软件包均通过 opkg 安装，一切配置均在脚本中可见，请放心使用
+Все пакеты устанавливаются через opkg и все видно в скрипте, так что не стесняйтесь использовать
 
-## 使用说明
+## Инструкции
 
-[wiki](https://github.com/xzhih/ONMP/wiki)
+[wiki](https://github.com/xzhih/ONMP/wiki) на китайском
+[wiki](https://github.com/MikhZo/ONMP_RU/wiki) на русском
 
-[底噪博客](https://zhih.me)
+[Блог](https://zhih.me) не доступен
 
-## 安装教程
+## Руководство по установке
 
-### 1. 安装 Entware
+### 1. Установка Entware
 
-Entware-ng 是一个适用于嵌入式系统的软件包库，使用 opkg 包管理系统进行管理，现在在官方的源上已经有超过 2000 个软件包了，可以说是非常的丰富
+Entware - это репозиторий программного обеспечения для сетевых хранилищ, маршрутизаторов и других встроенных устройств.
+Доступно более 2500 пакетов для разных платформ. Пакеты Entware - это полные версии программ / команд, встречающихся 
+в распространенных дистрибутивах Linux.
 
-不同的固件，安装方式都不一样，请认准安装方式（自己是什么固件总该懂得吧😂）
+Установка Entware на LEDE
 
-[在 LEDE 上使用 Entware](https://github.com/xzhih/ONMP/wiki/在-LEDE-上安装-Entware)
+Установка Entware на Merlin
 
-[在梅林上使用 Entware](https://github.com/xzhih/ONMP/wiki/在梅林上安装-Entware)
+Установка Entware на Padavan
 
-[在 Padavan 上使用 entware](https://github.com/xzhih/ONMP/wiki/在-Padavan-上安装-Entware)
+Установка Entware на Keenetic
 
-### 2. 安装onmp
+Различные прошивки предполагают разные способы установки, определите свой способ (нужно знать свою прошивку 😂)
 
-一键命令，复制->粘贴->回车
+[LEDE & Entware](https://github.com/MikhZo/ONMP_RU/wiki/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-Entware-%D0%BD%D0%B0-LEDE)
+
+[Merlin & Entware](https://github.com/MikhZo/ONMP_RU/wiki/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-Entware-%D0%BD%D0%B0-Merlin)
+
+[Padavan & Entware](https://github.com/MikhZo/ONMP_RU/wiki/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-Entware-%D0%BD%D0%B0-Padavan)
+
+[Keenetic & Entware](https://github.com/MikhZo/ONMP_RU/wiki/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-Entware-%D0%BD%D0%B0-Keenetic)
+
+
+### 2. Установка ONMP
+
+Команда в один клик, копировать -> вставить -> выполнить
 
 ```
- $ sh -c "$(curl -kfsSl https://raw.githubusercontent.com/xzhih/ONMP/master/oneclick.sh)"
+ $ sh -c "$(curl -kfsSl https://raw.githubusercontent.com/MikhZo/ONMP_RU/blob/master/oneclick-ru.sh)"
 ```
 
-一长串的复制如果出错，可以按照以下给出的命令，一步步进行安装
+Если вы получаете ошибки, вы можете следовать приведенным ниже этапам и выполнять команды по установке шаг за шагом.
 
 ```
-# 进入 entware 挂载目录
- cd /opt && opkg install wget unzip 
+# Войдите в каталог для подключения entware
+  cd /opt && opkg install wget unzip 
 
-# 下载软件包
-wget --no-check-certificate -O /opt/onmp.zip https://github.com/xzhih/ONMP/archive/master.zip 
+# Скачивание пакета - НУЖНО!
+wget --no-check-certificate -O /opt/onmp.zip https://github.com/MikhZo/ONMP_RU/archive/refs/heads/master.zip
 
-# 解压
-unzip /opt/onmp.zip 
-cd /opt/ONMP-master 
+# Распаковка
+unzip /opt/onmp.zip
+mv /opt/ONMP-master /opt/onmp
+cd /opt/onmp
 
-# 设置权限
+# Установка разрешений
 chmod +x ./onmp.sh 
 
-# 运行
+# Исполнение
 ./onmp.sh 
 ```
 
-要是正常运行到脚本，会出现下面的情景，选1安装即可
+Если вы правильно запустите скрипт , появится следующий сценарий.
 
-![安装](https://i.loli.net/2018/03/03/5a99ac096c6a1.png)
+![Установка](https://i.loli.net/2018/03/03/5a99ac096c6a1.png)
 
-正常安装中要是出现错误，会有错误信息，根据提示操作，目前得到的大多数反馈都是网络问题，因为 entware 的源在国外，而且他们的管理者说之前受到了来自亚洲的DDOS，所以对这边限流了，速度较慢。遇到这种情况，可以去看看剧，没准回来的时候就好了😄
+При обычной установке, если есть ошибка, появится сообщение об ошибке.
+Согласно оперативной операции, большая часть полученных в настоящее время
+отзывов связана с сетью, поскольку источник entware находится за границей,
+и их менеджер сказал, что они уже получили DDOS из Азии, поэтому Поток здесь
+ограничен, а скорость ниже. В этом случае вы можете пойти на шоу,
+и все будет хорошо, когда вы вернетесь.
 
-安装成功得到的结果是这样的
+Результатом успешной установки является это:
 
-![安装成功](https://i.loli.net/2018/03/03/5a99aeda756ac.png)
+![Успешная установка](https://i.loli.net/2018/03/03/5a99aeda756ac.png)
 
-如果你也是和上图一样，那么恭喜你，成功的安装上了 ONMP，你可以尽情的玩耍了
 
-## 更新脚本
+Если вы видите то же, что и на картинке выше, то поздравляю, вы успешно
+установили ONMP, можете пользоваться.
 
-同样是安装的那条命令，选择 2 即可更新。
+## Обновить скрипт
 
-## ONMP 详细使用教程
+Та же команда, что была установлена, выберите 2 для обновления.
 
-**基本命令：**
+## Подробное руководство ONMP
+
+**Основные команды:**
 
 ```
-管理：onmp open
-启动、停止、重启：onmp start|stop|restart
-查看网站列表：onmp list 
+Управление: onmp open
+Пуск, остановка, перезапуск: onmp start|stop|restart
+Посмотреть список сайтов: onmp list 
 ```
 
-**主要软件包的管理命令：**
+**Основной пакет команд управления：**
 
 ```
-Nginx 管理命令
+Команды управления Nginx
 onmp nginx start|restart|stop
 
-MySQL 管理命令
+Команды управления MySQL
 onmp mysql start|restart|stop
 
-PHP 管理命令
+Команды управления PHP
 onmp php start|restart|stop
 
-Redis 管理命令
+Команды управления Redis
 onmp redis start|restart|stop
 ```
 
-**设置数据库密码：**
+**Установите пароль базы данных:**
 
-输入 `onmp open` 后选择3，会提示 `Enter password:` ，这个时候要输入当前数据库的密码，比如我初始设置的数据库密码是123456，回车后要是密码正确，会提示输入你要设置的新密码，回车后会提示再次输入确认。也就是，一次旧密码，两次新密码。
+Введите `onmp open`, после выбора 3 вам будет предложено `Enter password:` 
+В настоящее время вам необходимо ввести пароль текущей базы данных, например, 
+первоначально установленный пароль базы данных - 123456,，Если пароль верен 
+после Enter вам будет предложено ввести новый пароль, который вы хотите
+установить.
+После нажатия клавиши Enter вам будет 
+Это очень простое расположение, но многие люди говорят, что не могут сменить
+пароль, на самом деле они не увидели подсказку и не ввели старый пароль,
+поэтому я написал ясно.
 
-这个位置很简单，但是很多人都说改不了密码，其实是没看提示，没输入旧密码，所以我写清楚一些。
 
-## 其他
+## Прочее
 
-探针来自 https://github.com/WuSiYu/PHP-Probe
+Парсер https://github.com/WuSiYu/PHP-Probe
+
+
+
+root@MIMIK:/opt/onmp# onmp nginx stop
+Nginx gracefully stopped.
+root@MIMIK:/opt/onmp# onmp nginx start
+Nginx started.
+root@MIMIK:/opt/onmp# onmp mysql stop
+root@MIMIK:/opt/onmp# onmp mysql start
+root@MIMIK:/opt/onmp# onmp php stop
+ Checking php-fpm...              alive.
+ Shutting down php-fpm...              done.
+root@MIMIK:/opt/onmp# onmp php start
+ Starting php-fpm...              done.
+
+   PHP MyAdmin
+ Явно прописать в opt/etc/php.ini
+
+ после extension_dir=/opt/lib/php
+
+ extension=mysqlnd.so
+extension=pdo_mysql.so
+extension=mysqli.so
+
+Явно прописать в /opt/wwwroot/phpMyAdmin/config.inc.php
+$cfg['Servers'][$i]['host'] = 127.0.0.1; (вместо localhost
+
+После входа в ваш экземпляр phpMyAdmin вы получите сообщение об ошибке:
+
+# 1231 - Переменная 'lc_messages' не может быть установлена в значение 'ru_RU'
+Решение:
+Это сообщение об ошибке вызвано неверным языковым кодом - в приведенном выше
+примере MySQL не понимает ru_RU языковой код.
+
+Самым простым решением для этого является установка phpMyAdmin на фиксированный
+язык. Чтобы сделать это, добавьте эту строку в вашу конфигурацию config.inc.php
+
+$cfg['Lang'] = 'en';
+Вы можете добавить это почти в любом месте файла, но я рекомендую добавить его
+после  $cfg['blowfish_secret'] строки.
+
+Если после этого сообщение об ошибке не исчезнет, убедитесь, что в   config.inc.php
+нет другой строки     $cfg [ 'Lang' ]
+
+Если порт открыт это означает, что какая либо программа (например сервис)
+использует его для связи с другой программой через интернет или в локальной
+системе. Чтобы посмотреть какие порты открыты в вашей системе Linux можно
+использовать команду netstat. В выводе будут показаны все сервисы и
+прослушиваемые ими порты и ip адреса.
+
+netstat -ntulp
+
+Здесь:
+
+-l или --listening - посмотреть только прослушиваемые порты
+-p или --program - показать имя программы и ее PID
+-t или --tcpпоказать tcp порты
+-u или --udp показать udp порты
+-n или --numeric показывать ip адреса в числовом виде
+
+Вы также можете использовать команду grep, чтобы узнать, какое приложение прослушивает конкретный порт, например:
+
+netstat -lntup | grep "nginx"
+
+В качестве альтернативы вы можете указать порт и найти приложение:
+
+netstat -lntup | grep ":80"
+
+(если OpenWRT долго работает, grep может не отображать информацию, тогда
+нужно перезагрузить роутер)
+
+
+
+
+Утилита lsof позволяет посмотреть все открытые в системе соединения,
+в том числе и сетевые, для этого нужно использовать опцию i.
+
+lsof -i
+
+(Скорее всего, не установлена, поэтому:
+opkg update
+opkg install lsof
+)
+
+Аналогично:
+ lsof -i | grep 80
+ (lsof -i | grep "nginx" ?)
+
+Чтобы узнать, какое приложение прослушивается на определенном порту, запустите
+lsof в таком виде:
+
+lsof -i :80
+
+
+ss — еще один полезный инструмент для отображения информации о сокетах.
+Он в своём использовании похож на netstat. Следующая команда выведет все порты,
+прослушивающие соединения TCP и UDP в числовом формате.
+
+ss -lntu
+ (opkg install ss)
+
+
+
+ Nmap — мощный и популярный инструмент для исследования сети
+и сканирования портов. Чтобы установить nmap в вашу систему, используйте
+opkg install nmap или opkg install nmap-ssl
+
+Чтобы «отсканировать» все открытые/прослушивающие порты в вашей Linux-системе,
+выполните следующую команду (она займет ОЧЕНЬ! много времени для своего
+выполнения!!!).
+
+nmap -n -PN -sT -sU -p- localhost
+
+Очень полезно проверить себя снаружи:
+сначала узнаем внешний ip адрес, для надежности воспользуемся онлайн сервисом:
+
+ wget -O - -q icanhazip.com
+
+178.93.149.50
+
+Дальше запускаем сканирование:
+
+ nmap 178.93.149.50
+
+
+
+
+
+ Создайте файл date.php в папке /opt/wwwroot/default/
+touch /opt/wwwroot/default/date.php
+
+и добавьте в него нижеприведенные строки
+PHP код:
+<?php
+$melbdate = date("l, d F Y h:i a",time()+(1*60));
+print ("$melbdate");
+?>
+
+  Изменить права доступа к файлу
+chmod 755 /opt/wwwroot/default/date.php
+
+Посмотрите текущую дату и время: http://192.168.1.1:81/date.php
+
+
+Nextcloud
+
+504 Gateway Time-out
+nginx/1.15.8
+
+
+location ~ .php$ { } :
+proxy_connect_timeout 600;
+proxy_send_timeout 600;
+proxy_read_timeout 600;
+send_timeout 600;
+fastcgi_read_timeout 300;
+fastcgi_buffers 8 128k;
+fastcgi_buffer_size 256k;
