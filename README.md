@@ -171,20 +171,6 @@ onmp redis start|restart|stop
 
 Парсер https://github.com/WuSiYu/PHP-Probe
 
-
-
-root@MIMIK:/opt/onmp# onmp nginx stop
-Nginx gracefully stopped.
-root@MIMIK:/opt/onmp# onmp nginx start
-Nginx started.
-root@MIMIK:/opt/onmp# onmp mysql stop
-root@MIMIK:/opt/onmp# onmp mysql start
-root@MIMIK:/opt/onmp# onmp php stop
- Checking php-fpm...              alive.
- Shutting down php-fpm...              done.
-root@MIMIK:/opt/onmp# onmp php start
- Starting php-fpm...              done.
-
    PHP MyAdmin
  Явно прописать в opt/etc/php.ini
 
@@ -195,7 +181,7 @@ extension=pdo_mysql.so
 extension=mysqli.so
 
 Явно прописать в /opt/wwwroot/phpMyAdmin/config.inc.php
-$cfg['Servers'][$i]['host'] = 127.0.0.1; (вместо localhost
+$cfg['Servers'][$i]['host'] = 127.0.0.1; (вместо localhost)
 
 После входа в ваш экземпляр phpMyAdmin вы получите сообщение об ошибке:
 
