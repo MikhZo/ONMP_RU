@@ -78,12 +78,12 @@ install_check()
 {
     notinstall=""
     for data in $pkglist ; do
-        if [[ `epkg list-installed | grep $data | wc -l` -ne 0 ]];then
+        if [[ `opkg list-installed | grep $data | wc -l` -ne 0 ]];then
             echo "$data - установлено"
         else
             notinstall="$notinstall $data"
             echo "$data - установка..."
-            epkg install $data
+            opkg install $data
         fi
     done
 }
@@ -93,12 +93,12 @@ install_php_mod()
 {
     notinstall=""
     for data in $phpmod ; do
-        if [[ `epkg list-installed | grep $data | wc -l` -ne 0 ]];then
+        if [[ `opkg list-installed | grep $data | wc -l` -ne 0 ]];then
             echo "$data - установлено"
         else
             notinstall="$notinstall $data"
             echo "$data - установка..."
-            epkg install $data
+            opkg install $data
         fi
     done
 }
@@ -106,7 +106,7 @@ install_php_mod()
 ############## Установочный пакет #############
 install_onmp_ipk()
 {
-    epkg update
+    opkg update
 
     # Установление статуса пакета
     install_check
@@ -130,7 +130,7 @@ install_onmp_ipk()
 read -p "Подтвердите [y/n]: " input
 case $input in
     y) install_php_mod;;
-n) echo "Если программа предложит вам установить плагин, можно использовать epkg, чтобы установить его самостоятельно.";;
+n) echo "Если программа предложит вам установить плагин, можно использовать opkg, чтобы установить его самостоятельно.";;
 *) echo "Вы ввели не y/n"
 exit;;
 esac 
@@ -571,10 +571,10 @@ remove_onmp()
     /opt/etc/init.d/S70redis stop > /dev/null 2>&1
     killall -9 nginx mysqld php-fpm redis-server > /dev/null 2>&1
     for pkg in $pkglist; do
-        epkg remove $pkg --force-depends
+        opkg remove $pkg --force-depends
     done
     for mod in $phpmod; do
-        epkg remove $mod --force-depends
+        opkg remove $mod --force-depends
     done
     rm -rf /opt/wwwroot
     rm -rf /opt/etc/nginx/vhost
