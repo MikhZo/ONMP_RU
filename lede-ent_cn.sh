@@ -37,12 +37,12 @@ x86_64)
 INST_URL="http://bin.entware.net/x64-k3.2/installer/generic.sh"
 ;;
 *)
-echo "Извините, на вашу платформу не может быть установлена Entware"
+echo "不好意思，你的平台似乎无法安装 Entware"
 exit 1
 ;;
 esac
 
-echo -e "Ниже приведена информация о вашем диске\n"
+echo -e "以下是你的磁盘信息\n"
 df -h
 echo -e "\n"
 
@@ -54,31 +54,31 @@ for mounted in $(mount | grep -E "ext4" | grep -v "overlay" | cut -d" " -f3) ; d
 done
 
 if [ $i = "1" ] ; then
-    echo -e "Не удается найти раздел Ext4, выход..."
+    echo -e "找不到 Ext4 分区，正在退出..."
     exit 1
 fi
 
-echo -e "\nНайдите указанный выше раздел Ext4"
-echo -en "Введите номер раздела или введите 0 для выхода [0-$((i - 1))]: "
+echo -e "\n找到以上 Ext4 分区"
+echo -en "输入分区序号或输入 0 退出 [0-$((i - 1))]: "
 read -r partitionNumber
 if [ "$partitionNumber" = "0" ] ; then
-    echo -e "$INFO" - выход...
+    echo -e "$INFO" 退出...
     exit 0
 fi
 if [ "$partitionNumber" -gt $((i - 1)) ] ; then
-    echo -e "Номер раздела неверен - выход ..."
+    echo -e "分区编号错误，正在退出..."
     exit 1
 fi
 
 eval entPartition=\$mounts"$partitionNumber"
-echo -e "выбран $entPartition \n"
+echo -e "已选择 $entPartition \n"
 
 entFolder="$entPartition/opt"
 
 if [ -d "$entFolder" ] ; then
-  echo -e "Старый файл Entware был найден в этом разделе - выполняется резервное копирование ..."
+  echo -e "在这个分区上发现了旧的 Entware 文件，正在备份..."
   mv "$entFolder" "$entFolder-old_$(date +%F_%H-%M)"
-  echo -e "Уже зарезервировано $entFolder-old_$(date +%F_%H-%M) \n"
+  echo -e "已经备份到 $entFolder-old_$(date +%F_%H-%M) \n"
 fi
 
 mkdir "$entFolder"
@@ -88,8 +88,8 @@ if [ -d /opt ] ; then
 fi
 
 ln -sf "$entFolder" /opt
-echo -e "Создано новое мягкое соединение\n"
-echo -e "Начните устанавливать Entware сейчас ..."
+echo -e "新的软连接已创建\n"
+echo -e "现在开始安装 Entware..."
 
 wget -qO - $INST_URL | sh
 
@@ -104,5 +104,5 @@ echo ". /opt/etc/profile" >> /etc/profile
 source /etc/profile
 
 if [[ "$(which opkg)" == "/opt/bin/opkg" ]]; then
-    echo -e "\nУстановка прошла успешно. Перезапустите проверку, чтобы убедиться, что она вступит в силу.\n"
+    echo -e "\n安装成功，重启查看是否生效\n"
 fi

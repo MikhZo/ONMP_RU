@@ -1,9 +1,9 @@
 #!/bin/sh
-# ONMP Установка в один клик
+# 一键安装onmp
 # @Author: xzhih
 # @Date:   2018-03-19 04:44:09
-# @Last Modified by:   MikhZo
-# @Last Modified time: 2025-04-04 01:51:35
+# @Last Modified by:   xzhih
+# @Last Modified time: 2018-10-08 01:51:35
 # sh -c "$(curl -kfsSL http://192.168.4.126:4000/oneclick.sh)"
 
 cat << EOF
@@ -21,13 +21,13 @@ cat << EOF
 
 =======================================================
 
-Скрипт установки одним щелчком для веб-среды библиотеки
-Entware,  подходит для  LEDE/OpenWRT,  Padavan,  Merlin
-Keenetic и  других  прошивок.
+ONMP 是一个 web 环境快速安装脚本，适用于安装了
+Entware 的路由器，目前已经在 Padavan、
+LEDE（openwrt）、梅林上测试成功。
 
-Проект: https://github.com/MikhZo/ONMP_RU
+项目地址：https://github.com/xzhih/ONMP
 
-Больше уроков: https://zhih.me (offline)
+更多使用教程：https://zhih.me
 
 EOF
 
@@ -36,40 +36,40 @@ Install()
 	rm -rf /opt/bin/onmp /opt/onmp
 	mkdir -p /opt/onmp
 
-    # Получение скрипта ONMP
-    curl -kfsSL https://raw.githubusercontent.com/MikhZo/ONMP_RU/master/onmp_ru.sh > /opt/onmp/onmp.sh
+    # 获取onmp脚本
+    curl -kfsSL https://raw.githubusercontent.com/xzhih/ONMP/master/onmp.sh > /opt/onmp/onmp.sh
     # curl -kfsSL http://192.168.4.126:4000/onmp.sh > /opt/onmp/onmp.sh
     chmod +x /opt/onmp/onmp.sh
 
-    # Получение php файла парсера  
-    curl -kfsSL https://raw.githubusercontent.com/MikhZo/PHP-Probe/master/tz_ru.php > /opt/onmp/tz.php
+    # 获取php探针文件
+    curl -kfsSL https://raw.githubusercontent.com/WuSiYu/PHP-Probe/master/tz.php > /opt/onmp/tz.php
 
     /opt/onmp/onmp.sh
 }
 
-Update()
+Updata()
 {
 	rm -rf /opt/onmp/onmp.sh
-	curl -kfsSL https://raw.githubusercontent.com/MikhZo/ONMP_RU/master/onmp_ru.sh > /opt/onmp/onmp.sh
+	curl -kfsSL https://raw.githubusercontent.com/xzhih/ONMP/master/onmp.sh > /opt/onmp/onmp.sh
 	# curl -kfsSL http://192.168.4.126:4000/onmp.sh > /opt/onmp/onmp.sh
 	chmod +x /opt/onmp/onmp.sh
 	/opt/onmp/onmp.sh renewsh > /dev/null 2>&1
-	echo "Обновление завершено"
+	echo "升级完成"
 }
 
 start()
 {
 #
 cat << EOF
-(1) Начать установку
-(2) Скрипт обновления
+(1) 开始安装
+(2) 升级脚本
 EOF
 
-read -p "Пожалуйста, введите:" input
+read -p "请输入：" input
 case $input in
-	1) Install;;
-	2) Update;;
-	*) exit;;
+	1 ) Install;;
+2) Updata;;
+*) exit;;
 esac
 
 }

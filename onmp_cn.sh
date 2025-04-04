@@ -1,8 +1,8 @@
 #!/bin/sh
 # @Author: xzhih
 # @Date:   2017-07-29 06:10:54
-# @Last Modified by:   MikhZo
-# @Last Modified time: 2025-04-04 02:50:26
+# @Last Modified by:   Fangshing87
+# @Last Modified time: 2019-06-09 11:39:26
 
 # Список пакетов
 pkglist="wget unzip grep sed tar ca-certificates coreutils-whoami php7 php7-cgi php7-cli php7-fastcgi php7-fpm php7-mod-mysqli php7-mod-pdo php7-mod-pdo-mysql nginx-extras mariadb-server mariadb-server-extra mariadb-client mariadb-client-extra"
@@ -14,41 +14,37 @@ phpmod="php7-mod-calendar php7-mod-ctype php7-mod-curl php7-mod-dom php7-mod-exi
 
 # Веб-программа
 # (1) phpMyAdmin (Инструмент управления БД)
-url_phpMyAdmin="https://files.phpmyadmin.net/phpMyAdmin/5.2.2/phpMyAdmin-5.2.2-all-languages.zip"
-# old url_phpMyAdmin="https://files.phpmyadmin.net/phpMyAdmin/4.8.3/phpMyAdmin-4.8.3-all-languages.zip"
+#url_phpMyAdmin="https://files.phpmyadmin.net/phpMyAdmin/4.8.3/phpMyAdmin-4.8.3-all-languages.zip"
+# Новая версия
+url_phpMyAdmin="https://files.phpmyadmin.net/phpMyAdmin/4.9.1/phpMyAdmin-4.9.1-all-languages.zip"
 
 # (2) WordPress (Наиболее широко используемая CMS)
-# version 6.7.2	24.03.2025 / Рекомендуется PHP 7.4 или новее и MySQL 8.0 или MariaDB версии 10.5 или новее.
-url_WordPress="https://ru.wordpress.org/wordpress-6.7.2-ru_RU.zip"
-# old china url_WordPress="https://cn.wordpress.org/wordpress-4.9.4-zh_CN.zip"
+#url_WordPress="https://cn.wordpress.org/wordpress-4.9.4-zh_CN.zip"
+url_WordPress="https://wordpress.org/wordpress-5.2.3.zip"
 
 # (3) Owncloud (Классическое частное облако)
-url_Owncloud="https://download.owncloud.com/server/stable/owncloud-10.15.2.zip"
-# url_Owncloud="https://download.owncloud.org/community/owncloud-10.0.10.zip"
+#url_Owncloud="https://download.owncloud.org/community/owncloud-10.0.10.zip"
+url_Owncloud="https://download.owncloud.org/community/owncloud-10.2.0.zip"
 
 # (4) Nextcloud (Новая работа команды Owncloud, красивый и мощный персональный облачный диск)
-url_Nextcloud="https://download.nextcloud.com/server/releases/nextcloud-31.0.2.zip"
-# url_Nextcloud="https://download.nextcloud.com/server/releases/nextcloud-13.0.6.zip"
+#url_Nextcloud="https://download.nextcloud.com/server/releases/nextcloud-13.0.6.zip"
+#Новая версия
+url_Nextcloud="https://download.nextcloud.com/server/releases/nextcloud-17.0.0.zip"
 
 # (5) h5ai (Отличный каталог файлов)
-url_h5ai="https://github.com/lrsjng/h5ai/releases/download/v0.30.0/h5ai-0.30.0.zip"
-# url_h5ai="https://release.larsjung.de/h5ai/h5ai-0.29.0.zip"
+#url_h5ai="https://release.larsjung.de/h5ai/h5ai-0.29.0.zip"
+url_h5ai="https://release.larsjung.de/h5ai/h5ai-0.29.2.zip"
 
 # (6) Lychee(Красивый, простой в использовании веб-альбом)
-url_Lychee="https://github.com/LycheeOrg/Lychee/releases/download/v6.4.1/Lychee.zip"
-# url_Lychee="https://github.com/electerious/Lychee/archive/master.zip"
+url_Lychee="https://github.com/electerious/Lychee/archive/master.zip"
 
 # (7) Kodexplorer (Can Daoyun aka Mango Cloud Онлайн менеджер документов)
-url_Kodexplorer="https://static.kodcloud.com/update/download/kodexplorer4.52.zip"
-# url_Kodexplorer="http://static.kodcloud.com/update/download/kodexplorer4.36.zip"
+url_Kodexplorer="http://static.kodcloud.com/update/download/kodexplorer4.36.zip"
 
 # (8) Typecho (Легкая программа для блогов с открытым исходным кодом)
-# Требования к среде установки: PHP 7.4 и выше, Любая БД MySQL/PostgreSQL/SQLite и расширениями PHP, CURL, mbstring или iconv
-url_Typecho="https://github.com/typecho/typecho/releases/download/v1.2.1/typecho.zip"
-# url_Typecho="http://typecho.org/downloads/1.1-17.10.30-release.tar.gz"
+url_Typecho="http://typecho.org/downloads/1.1-17.10.30-release.tar.gz"
 
 # (9) Z-Blog (Маленький, быстрый PHP блоггер)
-#{"code":"40310002","msg":"region is forbidden"}
 url_Zblog="https://update.zblogcn.com/zip/Z-BlogPHP_1_5_2_1935_Zero.zip"
 
 # (10) DzzOffice (Офисная платформа с открытым исходным кодом)
@@ -78,12 +74,12 @@ install_check()
 {
     notinstall=""
     for data in $pkglist ; do
-        if [[ `epkg list-installed | grep $data | wc -l` -ne 0 ]];then
+        if [[ `/opt/bin/opkg list-installed | grep $data | wc -l` -ne 0 ]];then
             echo "$data - установлено"
         else
             notinstall="$notinstall $data"
             echo "$data - установка..."
-            epkg install $data
+            /opt/bin/opkg install $data
         fi
     done
 }
@@ -93,12 +89,12 @@ install_php_mod()
 {
     notinstall=""
     for data in $phpmod ; do
-        if [[ `epkg list-installed | grep $data | wc -l` -ne 0 ]];then
+        if [[ `/opt/bin/opkg list-installed | grep $data | wc -l` -ne 0 ]];then
             echo "$data - установлено"
         else
             notinstall="$notinstall $data"
             echo "$data - установка..."
-            epkg install $data
+            /opt/bin/opkg install $data
         fi
     done
 }
@@ -106,7 +102,7 @@ install_php_mod()
 ############## Установочный пакет #############
 install_onmp_ipk()
 {
-    epkg update
+    /opt/bin/opkg update
 
     # Установление статуса пакета
     install_check
@@ -130,7 +126,7 @@ install_onmp_ipk()
 read -p "Подтвердите [y/n]: " input
 case $input in
     y) install_php_mod;;
-n) echo "Если программа предложит вам установить плагин, можно использовать epkg, чтобы установить его самостоятельно.";;
+n) echo "Если программа предложит вам установить плагин, можно использовать /opt/bin/opkg, чтобы установить его самостоятельно.";;
 *) echo "Вы ввели не y/n"
 exit;;
 esac 
@@ -571,10 +567,10 @@ remove_onmp()
     /opt/etc/init.d/S70redis stop > /dev/null 2>&1
     killall -9 nginx mysqld php-fpm redis-server > /dev/null 2>&1
     for pkg in $pkglist; do
-        epkg remove $pkg --force-depends
+        /opt/bin/opkg remove $pkg --force-depends
     done
     for mod in $phpmod; do
-        epkg remove $mod --force-depends
+        /opt/bin/opkg remove $mod --force-depends
     done
     rm -rf /opt/wwwroot
     rm -rf /opt/etc/nginx/vhost
@@ -765,7 +761,7 @@ HHH
 
 }
 
-############### Установка программы сайта ##############
+############### Установка WEB-приложений ##############
 install_website()
 {
     # Переменные среды
@@ -775,7 +771,7 @@ install_website()
 # Процедура выбора
 cat << AAA
 ----------------------------------------
-|******* Выберите веб-программу *******|
+|****** Выберите  WEB-приложение ******|
 ----------------------------------------
 (1) phpMyAdmin (БД Управление инструмент)
 (2) WordPress (Наиболее широко используемая CMS)
@@ -1027,8 +1023,8 @@ install_owncloud()
     echo "Введите адрес: $localhost:$port для получения доступа"
     echo "При первом открытии пользователь БД будет настроен. Информация"
     echo "Адрес по умолчанию localhost, самостоятельно настройте логин/пароль, или по умолчанию: root 123456"
-    echo "Установка, после этого вы можете нажать на три полосы в верхнем левом углу, чтобы ввести market. Установка мощных плагинов, таких, как предварительный просмотр изображений, видео и т. д."
-    echo "Необходимо полностью настроить конфигурацию web，можно использовать onmp open выбор 10 настройки Redis"
+    echo "Установка, после этого вы можете нажать на три полосы в верхнем левом углу, чтобы ввести market. Установка Богатые плагины, такие как предварительный просмотр изображений, видео и т. Д."
+    echo "Необходимо полностью настроить конфигурацию web，Можно использовать onmp open выбор 10 настройки Redis"
 }
 
 ################# Установка Nextcloud ##############
@@ -1266,8 +1262,10 @@ read -p "Подтвердите Установка [Y/n]: " input
 case $input in
     Y|y ) 
 #
-sed -e "/);/d" -i $file/config/config.php
-cat >> "$file/config/config.php" <<-\EOF
+#sed -e "/);/d" -i $file/config/config.php
+#cat >> "$file/config/config.php" <<-\EOF
+sed -e "/);/d" -i $fileconfig/config.php
+cat >> "$fileconfig/config.php" <<-\EOF
 'memcache.locking' => '\OC\Memcache\Redis',
 'memcache.local' => '\OC\Memcache\Redis',
 'redis' => array(
@@ -1364,14 +1362,14 @@ cat << EOF
 
 =======================================================
 
-(1) УстановкаONMP
+(1) Установка ONMP
 (2) Удаление ONMP
 (3) Настройки пароля БД
 (4) Сброс БД 
 (5) БД резервное копирование
 (6) Сбросить все (Удаление каталога сайтов, см. backup)
-(7) Установка программы Веб-сайта
-(8) Управление Веб-сайтом
+(7) Установка WEB-приложений
+(8) Удаление WEB-приложений
 (9) Открытый Swap
 (10) Открытый Redis
 (0) Выход
