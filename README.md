@@ -95,7 +95,7 @@ wget --no-check-certificate -O /opt/onmp.zip https://github.com/MikhZo/ONMP_RU/a
 
 # Распаковка
 unzip /opt/onmp.zip
-mv /opt/ONMP-master /opt/onmp
+mv /opt/ONMP_RU-master /opt/onmp
 cd /opt/onmp
 
 # Установка разрешений
